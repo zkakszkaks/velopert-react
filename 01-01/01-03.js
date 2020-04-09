@@ -34,5 +34,4 @@
  * 5. npm start(or yarn start)
  * 6. 개발서버 종료: CTRL+C
  *
- *
  */
