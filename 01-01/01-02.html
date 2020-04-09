@@ -1,0 +1,40 @@
+<!--
+[01] DOM이란?
+1. Document Object Model
+2. 각 HTML 엘리먼트에 대한 정보를 지니고 있는 자바스크립트 객체
+
+[02] Virtual DOM 이란?
+1. 메모리에 가상으로 존재 하는 돔. 자바스크립트 객체로 되어 있다.
+2. 브라우저에 돔을 보여주는 것보다 속도가 훨씬 빠르다.
+
+[03] 컴포넌트란?
+1.  input이 있으면 output을 만들어 내는 일종의 UI 조각
+2.  const Hello = ({name} -> <div>Hello, {name}</div>
+
+[04] 리액트란?
+1.  UI를 어떻게 업데이트 할지에 대한 고민은 하지 않고, UI를 어떻게 보여줄지에 집중할 수 있다.
+2. 어떠한 상태가 바뀌었을때 Virtual DOM을 모두 지우고 새로운 Virtual DOM(메모리에 있는돔)을 생성한다.
+그리고 비교알고리즘을 이용하여 브라우저에 렌더링 되어있는 돔과 Virtual DOM을 비교하여 다른 곳을 찾고
+이 다른 곳을 렌더링된 돔에 Patch 한다. 
+
+[05] Patch를 한다.
+차이를 확인해서 필요한 결과를 반영시켜 준다.
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+  </head>
+  <body>
+    <h2 id="number">0</h2>
+    <div>
+      <button id="increase">+1</button>
+      <button id="decrease">-1</button>
+    </div>
+
+    <script src="src/01-02.js"></script>
+  </body>
+</html>
