@@ -1,12 +1,7 @@
 import React from "react";
 import InputSample from "./InputSample";
-
 function App() {
-  return (
-    <>
-      <InputSample />
-    </>
-  );
+  return <InputSample />;
 }
 
 export default App;
