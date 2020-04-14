@@ -11,16 +11,19 @@ const App = () => {
       id: 1,
       username: "velopert",
       email: "public.velopert@gmal.com",
+      active: true,
     },
     {
       id: 2,
       username: "tester",
       email: "tester@example.com",
+      active: false,
     },
     {
       id: 3,
       username: "liz",
       email: "liz@example.com",
+      active: false,
     },
   ]);
 
@@ -46,6 +49,18 @@ const App = () => {
     setInputs({ username: "", email: "" });
     nameInput.current.focus();
   };
+
+  const onRemove = (id) => {
+    setUsers(users.filter((user) => user.id !== id));
+  };
+
+  const onToggle = (id) => {
+    setUsers(
+      users.map((user) =>
+        user.id === id ? { ...user, active: !user.active } : user
+      )
+    );
+  };
   return (
     <div>
       <CreateUser
@@ -56,7 +71,7 @@ const App = () => {
         onReset={onReset}
         nameInput={nameInput}
       />
-      <UserList users={users} />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
     </div>
   );
 };
