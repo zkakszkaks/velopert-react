@@ -1,21 +1,30 @@
 import React from "react";
 
-const CreateUser = ({ username, email, onChange, onCreate }) => {
+const CreateUser = ({
+  username,
+  email,
+  onChange,
+  onCreate,
+  onReset,
+  nameInput,
+}) => {
   return (
     <div>
       <input
         name="username"
         onChange={onChange}
         value={username}
-        placeholder="이름"
+        placeholder="username"
+        ref={nameInput}
       />
       <input
         name="email"
         onChange={onChange}
         value={email}
-        placeholder="이메일"
+        placeholder="email"
       />
       <button onClick={onCreate}>등록</button>
+      <button onClick={onReset}>초기화</button>
     </div>
   );
 };

@@ -1,13 +1,7 @@
 import React from "react";
 
 const UserList = ({ users }) => {
-  return (
-    <div>
-      {users.map((user) => (
-        <User user={user} key={user.id} />
-      ))}
-    </div>
-  );
+  return users.map((user) => <User user={user} key={user.id} />);
 };
 
 const User = ({ user }) => {

@@ -6,7 +6,6 @@ const App = () => {
     username: "",
     email: "",
   });
-  const { username, email } = inputs;
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -25,35 +24,40 @@ const App = () => {
     },
   ]);
 
-  const nextId = useRef(4); // 컴포넌트가 리렌더링 되도 기억된다.
-
-  const onCreate = () => {
-    console.log(nextId.current); // 4
-
-    setUsers([...users, { id: nextId.current, username, email }]);
-    setInputs({
-      username: "",
-      email: "",
-    });
-
-    nextId.current += 1; // 값을변경한다. 값이 바뀌어도 컴포넌트가 리렌더링 되지 않는다.
-  };
-
   const onChange = (e) => {
     const { name, value } = e.target;
 
     setInputs({ ...inputs, [name]: value });
   };
+
+  const onCreate = () => {
+    setUsers([...users, { id: nextId.current++, ...inputs }]);
+    setInputs({
+      username: "",
+      email: "",
+    });
+  };
+
+  const { username, email } = inputs;
+  const nameInput = useRef();
+  const nextId = useRef(4);
+
+  const onReset = () => {
+    setInputs({ username: "", email: "" });
+    nameInput.current.focus();
+  };
   return (
-    <>
+    <div>
       <CreateUser
-        username={username}
-        email={email}
         onCreate={onCreate}
         onChange={onChange}
+        username={username}
+        email={email}
+        onReset={onReset}
+        nameInput={nameInput}
       />
       <UserList users={users} />
-    </>
+    </div>
   );
 };
 
