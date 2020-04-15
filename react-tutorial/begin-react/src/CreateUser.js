@@ -9,23 +9,28 @@ const CreateUser = ({
   nameInput,
 }) => {
   return (
-    <div>
+    <>
       <input
         name="username"
-        onChange={onChange}
+        placeholder="계정명"
         value={username}
-        placeholder="username"
+        onChange={onChange}
         ref={nameInput}
       />
       <input
         name="email"
-        onChange={onChange}
+        placeholder="이메일"
         value={email}
-        placeholder="email"
+        onChange={onChange}
       />
-      <button onClick={onCreate}>등록</button>
-      <button onClick={onReset}>초기화</button>
-    </div>
+      <button type="button" onClick={onCreate}>
+        등록
+      </button>
+      <button type="reset" onClick={onReset}>
+        초기화
+      </button>
+    </>
   );
 };
+
 export default CreateUser;

@@ -1,36 +1,50 @@
 import React, { useState, useRef } from "react";
 import CreateUser from "./CreateUser";
 import UserList from "./UserList";
+
 const App = () => {
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
   });
+
+  const { username, email } = inputs;
+
   const [users, setUsers] = useState([
     {
       id: 1,
       username: "velopert",
-      email: "public.velopert@gmal.com",
+      email: "public.velopert@gmail.com",
       active: true,
     },
     {
       id: 2,
-      username: "tester",
-      email: "tester@example.com",
+      username: "gyseo",
+      email: "gyseo20@gmail.com",
       active: false,
     },
     {
       id: 3,
-      username: "liz",
-      email: "liz@example.com",
+      username: "단이",
+      email: "단이@gmail.com",
       active: false,
     },
   ]);
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
+  const onToggle = (id) => {
+    setUsers(
+      users.map((user) =>
+        id === user.id ? { ...user, active: !user.active } : user
+      )
+    );
+  };
 
-    setInputs({ ...inputs, [name]: value });
+  const onRemove = (id) => {
+    setUsers(
+      users.filter((user) => {
+        return user.id !== id;
+      })
+    );
   };
 
   const onCreate = () => {
@@ -41,38 +55,34 @@ const App = () => {
     });
   };
 
-  const { username, email } = inputs;
-  const nameInput = useRef();
-  const nextId = useRef(4);
-
   const onReset = () => {
-    setInputs({ username: "", email: "" });
+    setInputs({
+      username: "",
+      email: "",
+    });
     nameInput.current.focus();
   };
 
-  const onRemove = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setInputs({ ...inputs, [name]: value });
   };
 
-  const onToggle = (id) => {
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, active: !user.active } : user
-      )
-    );
-  };
+  const nextId = useRef(4);
+
+  const nameInput = useRef();
   return (
-    <div>
+    <>
       <CreateUser
-        onCreate={onCreate}
-        onChange={onChange}
         username={username}
         email={email}
+        onCreate={onCreate}
         onReset={onReset}
+        onChange={onChange}
         nameInput={nameInput}
       />
-      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
-    </div>
+      <UserList users={users} onToggle={onToggle} onRemove={onRemove} />
+    </>
   );
 };
 
