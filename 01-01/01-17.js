@@ -79,7 +79,7 @@ useEffect(() => {
     // user 객체가 바뀌기 직전에 호출이 된다.
     // 컴포넌트가 사라지기 전에 호출이 된다.
   };
-}, []);
+}, [users]);
 
 // useEffect의 실제 사용 예시
 // 1. 벨로그에서 url /react-testing 이라는 이름을 가지로 post를 읽는다.
