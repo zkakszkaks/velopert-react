@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import CreateUser from "./CreateUser";
 import UserList from "./UserList";
 
@@ -35,42 +35,56 @@ const App = () => {
     },
   ]);
 
-  const onToggle = (id) => {
-    setUsers(
-      users.map((user) =>
-        id === user.id ? { ...user, active: !user.active } : user
-      )
-    );
-  };
+  const onToggle = useCallback(
+    (id) => {
+      setUsers(
+        users.map((user) =>
+          id === user.id ? { ...user, active: !user.active } : user
+        )
+      );
+    },
+    [users]
+  );
 
-  const onRemove = (id) => {
-    setUsers(
-      users.filter((user) => {
-        return user.id !== id;
-      })
-    );
-  };
+  const onRemove = useCallback(
+    (id) => {
+      setUsers(
+        users.filter((user) => {
+          return user.id !== id;
+        })
+      );
+    },
+    [users]
+  );
 
-  const onCreate = () => {
+  // 디펜더시를 넣어주지 않으면
+  // 최신 상태 값을 참조하는 것이 아니라
+  // 컴포넌트가 처음 만들어질때의 상태 값을 참조하는 의도치 않은 일이 일어난다.
+  const onCreate = useCallback(() => {
     setUsers([...users, { id: nextId.current++, ...inputs }]);
     setInputs({
       username: "",
       email: "",
     });
-  };
+  }, [users, inputs]);
 
-  const onReset = () => {
+  const onReset = useCallback(() => {
     setInputs({
       username: "",
       email: "",
     });
     nameInput.current.focus();
-  };
+  }, []);
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: value });
-  };
+  // onChange함수는 inputs가 바뀔때만 함수가 새로 만들어진다.
+  // inputs가 바뀌지 않았다면 이전에 만든 함수를 재사용 하게 된다.
+  const onChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setInputs({ ...inputs, [name]: value });
+    },
+    [inputs]
+  );
 
   const nextId = useRef(4);
 
