@@ -1,14 +1,8 @@
 import React, { useEffect } from "react";
 
-const User = ({ user, onToggle, onRemove }) => {
+const User = React.memo(function ({ user, onToggle, onRemove }) {
+  console.log("User");
   const { id, username, email, active } = user;
-
-  useEffect(() => {
-    console.log("user값이 설정 됨", user);
-    return () => {
-      console.log("user값이 바뀌기 전", user);
-    };
-  }, [user]);
 
   return (
     <div>
@@ -26,7 +20,7 @@ const User = ({ user, onToggle, onRemove }) => {
       </button>
     </div>
   );
-};
+});
 
 const UserList = ({ users, onToggle, onRemove }) => {
   return users.map((user) => (
@@ -34,4 +28,8 @@ const UserList = ({ users, onToggle, onRemove }) => {
   ));
 };
 
-export default UserList;
+export default React.memo(
+  UserList,
+  (prevProps, nextProps) => nextProps.users === prevProps.props
+); // 나머지 프롭스가 고정적이라서 비교할 필요없어서 users만 가지고 리렌더링할지 않할지 판단.
+// users가 같으면 리렌더링 하지 않고 다르면 리렌더링 하겠다는 의미

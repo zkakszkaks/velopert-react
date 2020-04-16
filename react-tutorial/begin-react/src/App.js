@@ -35,45 +35,38 @@ const App = () => {
     },
   ]);
 
-  const onToggle = useCallback(
-    (id) => {
-      setUsers(
-        users.map((user) =>
-          id === user.id ? { ...user, active: !user.active } : user
-        )
-      );
-    },
-    [users]
-  );
+  const onToggle = useCallback((id) => {
+    setUsers((users) =>
+      users.map((user) =>
+        id === user.id ? { ...user, active: !user.active } : user
+      )
+    );
+  }, []);
 
-  const onRemove = useCallback(
-    (id) => {
-      setUsers(
-        users.filter((user) => {
-          return user.id !== id;
-        })
-      );
-    },
-    [users]
-  );
+  const onRemove = useCallback((id) => {
+    setUsers((users) =>
+      users.filter((user) => {
+        return user.id !== id;
+      })
+    );
+  }, []);
 
   // 디펜더시를 넣어주지 않으면
   // 최신 상태 값을 참조하는 것이 아니라
   // 컴포넌트가 처음 만들어질때의 상태 값을 참조하는 의도치 않은 일이 일어난다.
   const onCreate = useCallback(() => {
-    setUsers([...users, { id: nextId.current++, ...inputs }]);
+    setUsers((users) => [...users, { id: nextId.current++, ...inputs }]);
     setInputs({
       username: "",
       email: "",
     });
-  }, [users, inputs]);
+  }, [inputs]);
 
   const onReset = useCallback(() => {
     setInputs({
       username: "",
       email: "",
     });
-    nameInput.current.focus();
   }, []);
 
   // onChange함수는 inputs가 바뀔때만 함수가 새로 만들어진다.
@@ -88,8 +81,6 @@ const App = () => {
 
   const nextId = useRef(4);
 
-  const nameInput = useRef();
-
   const count = useMemo(() => countActiveUsers(users), [users]);
   return (
     <>
@@ -99,7 +90,6 @@ const App = () => {
         onCreate={onCreate}
         onReset={onReset}
         onChange={onChange}
-        nameInput={nameInput}
       />
       <UserList users={users} onToggle={onToggle} onRemove={onRemove} />
       <div>활성 사용자 수: {count}</div>
