@@ -1,14 +1,15 @@
-import React from "react";
-
-const UserList = ({ users, onToggle, onRemove }) => {
-  console.log(users);
-  return users.map((user) => (
-    <User user={user} key={user.id} onToggle={onToggle} onRemove={onRemove} />
-  ));
-};
+import React, { useEffect } from "react";
 
 const User = ({ user, onToggle, onRemove }) => {
   const { id, username, email, active } = user;
+
+  useEffect(() => {
+    console.log("user값이 설정 됨", user);
+    return () => {
+      console.log("user값이 바뀌기 전", user);
+    };
+  }, [user]);
+
   return (
     <div>
       <b
@@ -25,6 +26,12 @@ const User = ({ user, onToggle, onRemove }) => {
       </button>
     </div>
   );
+};
+
+const UserList = ({ users, onToggle, onRemove }) => {
+  return users.map((user) => (
+    <User user={user} key={user.id} onToggle={onToggle} onRemove={onRemove} />
+  ));
 };
 
 export default UserList;
