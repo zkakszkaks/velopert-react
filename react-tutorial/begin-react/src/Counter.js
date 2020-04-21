@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 
+function reducer(state, actcion) {
+  switch (actcion.type) {
+    case "INCREMENT":
+      return state + 1;
+    case "DECREMENT":
+      return state - 1;
+    default:
+      throw new Error("Unhandled action");
+  }
+}
 const Counter = () => {
-  const [number, setNumber] = useState(0);
-
+  // dispatch: 보내다. 액션을 발생시킨다. 라는 의미를 가지고 있다.
+  const [number, dispatch] = useReducer(reducer, 0);
   const onIncrease = () => {
-    setNumber((prevNumber) => prevNumber + 1);
+    dispatch({
+      type: "INCREMENT",
+    });
   };
 
   const onDecrease = () => {
-    setNumber((prevNumber) => prevNumber - 1);
+    dispatch({
+      type: "DECREMENT",
+    });
   };
   return (
     <div>
