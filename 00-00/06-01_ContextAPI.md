@@ -32,8 +32,8 @@ function ContextSample() {
 }
 
 export default ContextSample;
-
 ```
+
 ```javascript
 import React from "react";
 import ReactDOM from "react-dom";
@@ -53,10 +53,42 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
 ```
 
 ### [문제 01-02] ContextAPI 사용
+
+```javascript
+import { useReducer, useCallback } from "react";
+
+// useState대신에 useReducer를 사용해 구현해보자.
+function reducer(state, action) {
+  switch (action.type) {
+    case "CHANGE":
+      return { ...state, [action.name]: action.value };
+    case "RESET":
+      return Object.keys(state).reduce((acc, current) => {
+        acc[current] = "";
+        return acc;
+      }, {});
+    default:
+      throw state;
+  }
+}
+function useInputs(initialForm) {
+  const [form, dispatch] = useReducer(reducer, initialForm);
+
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
+    dispatch({ type: "CHANGE", name, value });
+  }, []);
+
+  const reset = useCallback(() => dispatch({ type: "RESET" }), []);
+
+  return [form, onChange, reset];
+}
+
+export default useInputs;
+```
 
 ```javascript
 import React, {
@@ -201,7 +233,6 @@ export default React.memo(
   (prevProps, nextProps) => nextProps.users === prevProps.props
 ); // 나머지 프롭스가 고정적이라서 비교할 필요없어서 users만 가지고 리렌더링할지 않할지 판단.
 // users가 같으면 리렌더링 하지 않고 다르면 리렌더링 하겠다는 의미
-
 ```
 
 ```javascript
@@ -234,23 +265,21 @@ const CreateUser = ({ username, email, onChange, onCreate, onReset }) => {
 };
 
 export default React.memo(CreateUser);
-
-
-
 ```
 
 ### [문제 01-03] ContextAPI 사용
 
 /hooks/useInput.ks
+
 ```javascript
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 function useInputs(initialForm) {
   const [form, setForm] = useState(initialForm);
   // change
-  const onChange = useCallback(e => {
+  const onChange = useCallback((e) => {
     const { name, value } = e.target;
-    setForm(form => ({ ...form, [name]: value }));
+    setForm((form) => ({ ...form, [name]: value }));
   }, []);
   const onReset = useCallback(() => setForm(initialForm), [initialForm]);
   return [form, onChange, onReset];
@@ -260,55 +289,55 @@ export default useInputs;
 ```
 
 ```javascript
-import React, { useReducer, useMemo } from 'react';
-import UserList from './UserList';
-import CreateUser from './CreateUser';
+import React, { useReducer, useMemo } from "react";
+import UserList from "./UserList";
+import CreateUser from "./CreateUser";
 
 function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
+  console.log("활성 사용자 수를 세는중...");
+  return users.filter((user) => user.active).length;
 }
 
 const initialState = {
   users: [
     {
       id: 1,
-      username: 'velopert',
-      email: 'public.velopert@gmail.com',
-      active: true
+      username: "velopert",
+      email: "public.velopert@gmail.com",
+      active: true,
     },
     {
       id: 2,
-      username: 'tester',
-      email: 'tester@example.com',
-      active: false
+      username: "tester",
+      email: "tester@example.com",
+      active: false,
     },
     {
       id: 3,
-      username: 'liz',
-      email: 'liz@example.com',
-      active: false
-    }
-  ]
+      username: "liz",
+      email: "liz@example.com",
+      active: false,
+    },
+  ],
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'CREATE_USER':
+    case "CREATE_USER":
       return {
-        users: state.users.concat(action.user)
+        users: state.users.concat(action.user),
       };
-    case 'TOGGLE_USER':
+    case "TOGGLE_USER":
       return {
         ...state,
-        users: state.users.map(user =>
+        users: state.users.map((user) =>
           user.id === action.id ? { ...user, active: !user.active } : user
-        )
+        ),
       };
-    case 'REMOVE_USER':
+    case "REMOVE_USER":
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.id)
+        users: state.users.filter((user) => user.id !== action.id),
       };
     default:
       return state;
@@ -334,18 +363,17 @@ function App() {
 }
 
 export default App;
-
 ```
 
 ```javascript
-import React, { useRef, useContext } from 'react';
-import useInputs from './hooks/useInputs';
-import { UserDispatch } from './App';
+import React, { useRef, useContext } from "react";
+import useInputs from "./hooks/useInputs";
+import { UserDispatch } from "./App";
 
 const CreateUser = () => {
   const [{ username, email }, onChange, reset] = useInputs({
-    username: '',
-    email: ''
+    username: "",
+    email: "",
   });
 
   const nextId = useRef(4);
@@ -353,12 +381,12 @@ const CreateUser = () => {
 
   const onCreate = () => {
     dispatch({
-      type: 'CREATE_USER',
+      type: "CREATE_USER",
       user: {
         id: nextId.current,
         username,
-        email
-      }
+        email,
+      },
     });
     reset();
     nextId.current += 1;
@@ -384,12 +412,11 @@ const CreateUser = () => {
 };
 
 export default React.memo(CreateUser);
-
 ```
 
 ```javascript
-import React, { useContext } from 'react';
-import { UserDispatch } from './App';
+import React, { useContext } from "react";
+import { UserDispatch } from "./App";
 
 const User = React.memo(function User({ user }) {
   const dispatch = useContext(UserDispatch);
@@ -398,11 +425,11 @@ const User = React.memo(function User({ user }) {
     <div>
       <b
         style={{
-          cursor: 'pointer',
-          color: user.active ? 'green' : 'black'
+          cursor: "pointer",
+          color: user.active ? "green" : "black",
         }}
         onClick={() => {
-          dispatch({ type: 'TOGGLE_USER', id: user.id });
+          dispatch({ type: "TOGGLE_USER", id: user.id });
         }}
       >
         {user.username}
@@ -411,7 +438,7 @@ const User = React.memo(function User({ user }) {
       <span>({user.email})</span>
       <button
         onClick={() => {
-          dispatch({ type: 'REMOVE_USER', id: user.id });
+          dispatch({ type: "REMOVE_USER", id: user.id });
         }}
       >
         삭제
@@ -423,7 +450,7 @@ const User = React.memo(function User({ user }) {
 function UserList({ users }) {
   return (
     <div>
-      {users.map(user => (
+      {users.map((user) => (
         <User user={user} key={user.id} />
       ))}
     </div>
@@ -431,6 +458,4 @@ function UserList({ users }) {
 }
 
 export default React.memo(UserList); // 두번째 파라미터를 지웠습니다
-
 ```
-
