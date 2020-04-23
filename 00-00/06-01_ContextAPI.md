@@ -235,9 +235,29 @@ const CreateUser = ({ username, email, onChange, onCreate, onReset }) => {
 
 export default React.memo(CreateUser);
 
+
+
 ```
 
 ### [문제 01-03] ContextAPI 사용
+
+/hooks/useInput.ks
+```javascript
+import { useState, useCallback } from 'react';
+
+function useInputs(initialForm) {
+  const [form, setForm] = useState(initialForm);
+  // change
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    setForm(form => ({ ...form, [name]: value }));
+  }, []);
+  const onReset = useCallback(() => setForm(initialForm), [initialForm]);
+  return [form, onChange, onReset];
+}
+
+export default useInputs;
+```
 
 ```javascript
 import React, { useReducer, useMemo } from 'react';
@@ -413,3 +433,4 @@ function UserList({ users }) {
 export default React.memo(UserList); // 두번째 파라미터를 지웠습니다
 
 ```
+
