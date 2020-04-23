@@ -1,10 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserDispatch } from "./App";
 
 const User = React.memo(function ({ user }) {
   console.log("User");
   const { id, username, email, active } = user;
   const dispatch = useContext(UserDispatch);
+
+  useEffect(() => {
+    console.log("컴포넌트가 화면에 나타남");
+    return () => {
+      console.log("컴포넌트가 화면에서 사라짐");
+    };
+  }, []);
 
   return (
     <div>
