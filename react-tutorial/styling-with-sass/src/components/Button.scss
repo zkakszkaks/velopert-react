@@ -1,0 +1,24 @@
+$blue: #228be6; // 주석! 변수에 깂을 넣음
+
+.button {
+  display: inline-flex; // flext flog 구글 검색
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  height: 2.25rem; // px rem em 검색해서 rem:현재 브라우저 페이지 기본 폰트 사이즈 기반하여 사이즈 조정
+  padding-left: 1rem; // 16px
+  padding-right: 1rem; //1 6px
+  font-size: 1rem; // 16px
+
+  background: $blue;
+  &:hover {
+    background: lighten($blue, 10%); // 색상을 10% 밝게 해준다.
+  }
+  &:active {
+    background: darken($blue, 10%); // 클릭 했을때 색을 10% 어둡게 해준다.
+  }
+}
