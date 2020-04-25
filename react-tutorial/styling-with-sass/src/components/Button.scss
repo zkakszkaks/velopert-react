@@ -1,6 +1,6 @@
 $blue: #228be6; // 주석! 변수에 깂을 넣음
 
-.button {
+.Button {
   display: inline-flex; // flext flog 구글 검색
   color: white;
   font-weight: bold;
@@ -9,10 +9,20 @@ $blue: #228be6; // 주석! 변수에 깂을 넣음
   border-radius: 4px;
   cursor: pointer;
 
-  height: 2.25rem; // px rem em 검색해서 rem:현재 브라우저 페이지 기본 폰트 사이즈 기반하여 사이즈 조정
-  padding-left: 1rem; // 16px
-  padding-right: 1rem; //1 6px
-  font-size: 1rem; // 16px
+  padding-left: 1rem;
+  padding-right: 1rem; // 16px
+  &.large {
+    height: 3rem;
+    font-size: 1.25rem;
+  }
+  &.medium {
+    height: 2.25rem; // px rem em 검색해서 rem:현재 브라우저 페이지 기본 폰트 사이즈 기반하여 사이즈 조정
+    font-size: 1rem; // 16px
+  }
+  &.small {
+    height: 1.75rem;
+    font-size: 0.875rem;
+  }
 
   background: $blue;
   &:hover {
@@ -20,5 +30,8 @@ $blue: #228be6; // 주석! 변수에 깂을 넣음
   }
   &:active {
     background: darken($blue, 10%); // 클릭 했을때 색을 10% 어둡게 해준다.
+  }
+  & + & {
+    margin-left: 1rem;
   }
 }
