@@ -1,37 +1,83 @@
-$blue: #228be6; // 주석! 변수에 깂을 넣음
+$blue: #228be6; // 주석!
+$gray: #495057;
+$pink: #f06595;
 
+@mixin button-color($color) {
+  background: $color;
+  &:hover {
+    background: lighten($color, 10%); /* 색상을 10% 밝게 해준다 */
+  }
+
+  &:active {
+    background: darken($color, 10%); /* 색상을 10% 어둡게 해준다 */
+  }
+
+  &.outline {
+    color: $color;
+    background: none;
+    border: 1px solid $color;
+    &:hover {
+      background: $color;
+      color: #fff;
+    }
+  }
+}
 .Button {
-  display: inline-flex; // flext flog 구글 검색
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
   font-weight: bold;
   outline: none;
-  border: none;
   border-radius: 4px;
+  border: none;
   cursor: pointer;
 
   padding-left: 1rem;
-  padding-right: 1rem; // 16px
+  padding-right: 1rem;
+
   &.large {
     height: 3rem;
     font-size: 1.25rem;
   }
   &.medium {
-    height: 2.25rem; // px rem em 검색해서 rem:현재 브라우저 페이지 기본 폰트 사이즈 기반하여 사이즈 조정
-    font-size: 1rem; // 16px
+    height: 2.25rem; /* 현재 페이지 브라우저의 기본 폰트 사이즈에 기반하여 사이즈가 조정됨 크롬에서는 폰트 기본 사이즈가 16픽셀 16px*2.25 = 36px*/
+    font-size: 1rem;
   }
+
   &.small {
     height: 1.75rem;
     font-size: 0.875rem;
   }
 
-  background: $blue;
-  &:hover {
-    background: lighten($blue, 10%); // 색상을 10% 밝게 해준다.
+
+  // 맥: block후 cmd+d
+  // 윈: ctrl+d
+
+  &.blue {
+    @include button-color($blue);
   }
-  &:active {
-    background: darken($blue, 10%); // 클릭 했을때 색을 10% 어둡게 해준다.
+
+  &.gray {
+    @include button-color($gray);
   }
+
+  &.pink {
+    @include button-color($pink);
+  }
+
+
   & + & {
     margin-left: 1rem;
   }
+
+
+  &.fullWidth {
+    width: 100%;
+    justify-content: center;
+    & + & {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
 }
+
