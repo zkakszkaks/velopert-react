@@ -1,0 +1,27 @@
+$blue: #228be6; // 주석!
+
+//
+.Button {
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+
+  height: 2.25rem; /* 2.25 * 16 = 36 */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+
+  background: $blue;
+
+  &:hover {
+    background: lighten($blue, 10%);
+  }
+  &:active {
+    background: darken($blue, 10%);
+  }
+}
